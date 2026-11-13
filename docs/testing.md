@@ -12,6 +12,8 @@ In the isolated Unraid 7.3.5 VM, the real plugin checker downloaded the public G
 
 The VM uses restricted networking with an allowlisted CONNECT proxy for public GitHub downloads. TLS verification remained enabled. Because the guest PHP process did not inherit a shell proxy variable, the isolated guest's wget configuration supplied the proxy. This is a lab-only arrangement, not a plugin requirement or change to a production server. GUI status/notification rendering and CLI update execution were exercised; the GUI Update button itself was not clicked.
 
+The hosted package also passed the runtime smoke test, including a disposable venv and offline wheel install/import, followed by another successful hosted plugin check. No new full reboot test was performed after this hosted update.
+
 The runtime smoke test is `smoke.py`. Run it only in a disposable test environment with this interpreter installed. It creates temporary venvs and performs an offline wheel installation.
 
 Known scope limits: no Tkinter; decimal uses its Python implementation rather than the optional C accelerator; no optional Samba/libvirt/dbus bindings or PyYAML. NFS diagnostics requiring `/proc` and PyYAML were not full operational passes. Hashed CA directories load lazily; empty initial SSL certificate counts are not themselves a missing-store failure.

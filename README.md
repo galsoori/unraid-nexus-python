@@ -12,7 +12,7 @@ Install through Unraid's Plugins / Install Plugin page using:
 https://raw.githubusercontent.com/galsoori/unraid-nexus-python/main/nexus-python.plg
 ```
 
-Read [migration and rollback](docs/operations.md) first. Installation refuses an enabled dwpython or iSCSI Python provider and refuses unowned Python/pip commands. Do not install over an existing host Python provider without a backup and a planned migration.
+Installation refuses an enabled dwpython or iSCSI Python provider and refuses unowned Python/pip commands. Do not install over an existing host Python provider without a backup and a planned migration.
 
 The package lives in `/opt/nexus-python/3.15.2`. Activation creates owned `/usr/bin/python`, `python3`, `pip` and `pip3` links. The cached package is restored by the Unraid plugin boot process. Status is shown under Settings / Nexus Python. Normal plugin checks compare the published manifest version; updates are installed through Unraid's plugin manager.
 
@@ -20,4 +20,4 @@ The package lives in `/opt/nexus-python/3.15.2`. Activation creates owned `/usr/
 
 Updates are built, tested and explicitly published by the maintainer. New upstream Python releases do not automatically become plugin updates. Packages use release-specific URLs, with MD5 for Unraid compatibility and an additional SHA-256 check before installation.
 
-See [build instructions](docs/build.md) and [validation scope](docs/testing.md). Runtime licenses are included under `/opt/nexus-python/3.15.2/licenses`; source archives accompany releases. Original plugin/build code is MIT licensed; bundled components retain their own licenses.
+See [build instructions](docs/build.md). Runtime licenses are included under `/opt/nexus-python/3.15.2/licenses`; source archives accompany releases. Original plugin/build code is MIT licensed; bundled components retain their own licenses.

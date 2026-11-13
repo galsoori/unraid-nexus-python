@@ -1,0 +1,6 @@
+downloads/
+dist/
+sources/
+*.tar
+*.txz
+__pycache__/

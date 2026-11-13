@@ -1,0 +1,15 @@
+Menu="Utilities"
+Title="Nexus Python"
+Icon="code"
+---
+<?php
+$binary = '/opt/nexus-python/3.15.2/bin/python3.15';
+$active = is_link('/usr/bin/python3') && readlink('/usr/bin/python3') === $binary;
+?>
+**Python package:** 3.15.2 (local candidate)
+
+**Host interpreter:** <?= $active ? 'Nexus Python selected' : 'Not selected' ?>
+
+Includes pip and virtual environments. Package updates use the Unraid Plugins page.
+
+This page does not install packages or execute scripts. User environments and backup files are preserved on removal.

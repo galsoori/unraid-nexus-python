@@ -1,0 +1,5 @@
+.git/
+dist/
+sources/
+*.tar
+*.txz

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<PLUGIN name="nexus-python" author="Nexus" version="2026.11.13.2" min="7.3.2" max="7.3.5" launch="Settings/nexus-python" pluginURL="https://raw.githubusercontent.com/galsoori/unraid-nexus-python/main/nexus-python.plg">
+<CHANGES>Local candidate: Python 3.15.2, pip and venv. Exact supported OS guard: 7.3.2, 7.3.4 and 7.3.5. No uv or script editor.</CHANGES>
+<FILE Run="/bin/bash"><INLINE>#!/bin/bash
+# Local candidate. No network downloads and no Python dependency for recovery.
+set -euo pipefail
+name=nexus-python
+prefix=/opt/nexus-python/3.15.2
+fail() { echo "nexus-python: $*" &gt;&amp;2; exit 1; }
+platform() {
+  [[ $EUID == 0 ]] || fail 'root required'
+  case "$(cat /etc/unraid-version)" in
+    'version="7.3.2"'|'version="7.3.4"'|'version="7.3.5"') ;;
+    *) fail 'Unraid version not validated' ;;
+  esac
+}
+preflight() {
+  platform
+  [[ ! -e /boot/config/plugins/dwpython.plg ]] || fail 'dwpython still enabled; follow migration plan'
+  [[ ! -e /boot/config/plugins/iSCSIgui.plg &amp;&amp; ! -e /boot/config/plugins/iSCSIgui-dev.plg ]] || fail 'competing Python provider'
+  for cmd in python python3 pip pip3; do
+    for base in /usr/bin /usr/local/bin; do
+      p=$base/$cmd
+      if [[ -e $p || -L $p ]]; then
+        [[ -L $p &amp;&amp; $(readlink "$p") == "$prefix/bin/"* ]] || fail "unowned interpreter/tool: $p"
+      fi
+    done
+  done
+}
+set -- preflight
+case "${1:-}" in
+  preflight) preflight ;;
+  activate)
+    preflight
+    "$prefix/bin/python3.15" -I -B -c 'import ssl,sqlite3,ctypes,bz2,lzma,zlib,venv; assert __import__("sys").version_info[:3] == (3,15,2)'
+    for cmd in python python3; do ln -sfn "$prefix/bin/python3.15" "/usr/bin/$cmd"; done
+    for cmd in pip pip3; do ln -sfn "$prefix/bin/pip3.15" "/usr/bin/$cmd"; done
+    ;;
+  deactivate)
+    platform
+    for cmd in python python3 pip pip3; do
+      p=/usr/bin/$cmd
+      if [[ -L $p &amp;&amp; $(readlink "$p") == "$prefix/bin/"* ]]; then rm -- "$p"; fi
+    done
+    # Do not remove data, cached packages, virtual environments or other interpreters.
+    ;;
+  *) fail 'usage: manage.sh preflight|activate|deactivate' ;;
+esac
+</INLINE></FILE>
+<FILE Name="/boot/config/plugins/nexus-python/nexus-python-3.15.2-x86_64-2.txz"><URL>https://github.com/galsoori/unraid-nexus-python/releases/download/2026.11.13.2/nexus-python-3.15.2-x86_64-2.txz</URL><MD5>0b4ca1c49a1ed7879c7d9d6d40bf4bb2</MD5></FILE>
+<FILE Run="/bin/bash"><INLINE>set -eu
+echo '313c8589e3bf9ba82d918479bdd6f62609af4c31e962882ab0c30b00acbf8aac  /boot/config/plugins/nexus-python/nexus-python-3.15.2-x86_64-2.txz' | sha256sum -c -
+/sbin/installpkg /boot/config/plugins/nexus-python/nexus-python-3.15.2-x86_64-2.txz
+/bin/bash /usr/local/emhttp/plugins/nexus-python/manage.sh activate
+</INLINE></FILE>
+<FILE Run="/bin/bash" Method="remove"><INLINE>set -eu
+/bin/bash /usr/local/emhttp/plugins/nexus-python/manage.sh deactivate
+/sbin/removepkg nexus-python
+</INLINE></FILE>
+</PLUGIN>

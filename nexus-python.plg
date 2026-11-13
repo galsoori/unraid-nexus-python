@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<PLUGIN name="nexus-python" author="Nexus" version="2026.11.13.2" min="7.3.2" max="7.3.5" launch="Settings/nexus-python" pluginURL="https://raw.githubusercontent.com/galsoori/unraid-nexus-python/main/nexus-python.plg">
-<CHANGES>Local candidate: Python 3.15.2, pip and venv. Exact supported OS guard: 7.3.2, 7.3.4 and 7.3.5. No uv or script editor.</CHANGES>
+<PLUGIN name="nexus-python" author="Nexus" version="2026.11.14.1" min="7.3.2" max="7.4.0" launch="Settings/nexus-python" pluginURL="https://raw.githubusercontent.com/galsoori/unraid-nexus-python/main/nexus-python.plg">
+<CHANGES>Local candidate: Python 3.15.2, pip and venv. Exact supported OS guard: 7.3.2, 7.3.4, 7.3.5 and 7.4.0. No uv or script editor.</CHANGES>
 <FILE Run="/bin/bash"><INLINE>#!/bin/bash
 # Local candidate. No network downloads and no Python dependency for recovery.
 set -euo pipefail
@@ -10,7 +10,7 @@ fail() { echo "nexus-python: $*" &gt;&amp;2; exit 1; }
 platform() {
   [[ $EUID == 0 ]] || fail 'root required'
   case "$(cat /etc/unraid-version)" in
-    'version="7.3.2"'|'version="7.3.4"'|'version="7.3.5"') ;;
+    'version="7.3.2"'|'version="7.3.4"'|'version="7.3.5"'|'version="7.4.0"') ;;
     *) fail 'Unraid version not validated' ;;
   esac
 }
@@ -47,10 +47,10 @@ case "${1:-}" in
   *) fail 'usage: manage.sh preflight|activate|deactivate' ;;
 esac
 </INLINE></FILE>
-<FILE Name="/boot/config/plugins/nexus-python/nexus-python-3.15.2-x86_64-2.txz"><URL>https://github.com/galsoori/unraid-nexus-python/releases/download/2026.11.13.2/nexus-python-3.15.2-x86_64-2.txz</URL><MD5>0b4ca1c49a1ed7879c7d9d6d40bf4bb2</MD5></FILE>
+<FILE Name="/boot/config/plugins/nexus-python/nexus-python-3.15.2-x86_64-3.txz"><URL>https://github.com/galsoori/unraid-nexus-python/releases/download/2026.11.14.1/nexus-python-3.15.2-x86_64-3.txz</URL><MD5>eba4c5132b4f10d8b574df4ba84f93c3</MD5></FILE>
 <FILE Run="/bin/bash"><INLINE>set -eu
-echo '313c8589e3bf9ba82d918479bdd6f62609af4c31e962882ab0c30b00acbf8aac  /boot/config/plugins/nexus-python/nexus-python-3.15.2-x86_64-2.txz' | sha256sum -c -
-/sbin/installpkg /boot/config/plugins/nexus-python/nexus-python-3.15.2-x86_64-2.txz
+echo '49e6965af7a34ebbcb04e7ed4143af982b428c24d50f504d84615e53b00815e9  /boot/config/plugins/nexus-python/nexus-python-3.15.2-x86_64-3.txz' | sha256sum -c -
+/sbin/installpkg /boot/config/plugins/nexus-python/nexus-python-3.15.2-x86_64-3.txz
 /bin/bash /usr/local/emhttp/plugins/nexus-python/manage.sh activate
 </INLINE></FILE>
 <FILE Run="/bin/bash" Method="remove"><INLINE>set -eu

@@ -2,7 +2,7 @@
 
 A small, independently maintained host Python plugin for Unraid. Provides Python 3.15.2, pip 26.2.2, virtual environments and a read-only status page. No script editor, uv, automatic Python-version upgrades or changes to Unraid system libraries.
 
-Supported exact Unraid versions: **7.3.2, 7.3.4 and 7.3.5**, x86-64. Other versions are rejected. This is an initial release with isolated testing; production deployment has not been performed. It is not an official Unraid or Python project.
+Supported exact Unraid versions: **7.3.2, 7.3.4, 7.3.5 and 7.4.0**, x86-64. Other versions are rejected. Unraid 7.4.0 compatibility was tested in an isolated VM; physical hardware behavior still requires verification after upgrading. It is not an official Unraid or Python project.
 
 ## Installation
 

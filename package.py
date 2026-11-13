@@ -17,7 +17,7 @@ for p in pathlib.Path('/usr/share/doc').glob('*/copyright'):
     shutil.copy2(p, licenses/(p.parent.name+'.copyright'))
 (stage/'install').mkdir()
 (stage/'install/slack-desc').write_text('nexus-python: Nexus Python 3.15.2\nnexus-python: Private runtime, pip and virtual environments.\n')
-package='nexus-python-3.15.2-x86_64-2.txz'
+package='nexus-python-3.15.2-x86_64-3.txz'
 subprocess.run(['tar','--sort=name','--mtime=@1794528000','--owner=0','--group=0','--numeric-owner','-cJf',str(out/package),'-C',str(stage),'.'],check=True)
 sha=hashlib.sha256((out/package).read_bytes()).hexdigest()
 md5=hashlib.md5((out/package).read_bytes()).hexdigest()
@@ -38,8 +38,8 @@ remove='''set -eu
 /sbin/removepkg nexus-python
 '''
 plg=f'''<?xml version="1.0"?>
-<PLUGIN name="nexus-python" author="Nexus" version="2026.11.13.2" min="7.3.2" max="7.3.5" launch="Settings/nexus-python" pluginURL="{escape(base)}/nexus-python.plg">
-<CHANGES>Local candidate: Python 3.15.2, pip and venv. Exact supported OS guard: 7.3.2, 7.3.4 and 7.3.5. No uv or script editor.</CHANGES>
+<PLUGIN name="nexus-python" author="Nexus" version="2026.11.14.1" min="7.3.2" max="7.4.0" launch="Settings/nexus-python" pluginURL="{escape(base)}/nexus-python.plg">
+<CHANGES>Local candidate: Python 3.15.2, pip and venv. Exact supported OS guard: 7.3.2, 7.3.4, 7.3.5 and 7.4.0. No uv or script editor.</CHANGES>
 <FILE Run="/bin/bash"><INLINE>{escape(guard)}</INLINE></FILE>
 <FILE Name="{cache}"><URL>{escape(package_base)}/{package}</URL><MD5>{md5}</MD5></FILE>
 <FILE Run="/bin/bash"><INLINE>{escape(install)}</INLINE></FILE>

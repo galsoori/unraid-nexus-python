@@ -7,7 +7,7 @@ fail() { echo "nexus-python: $*" >&2; exit 1; }
 platform() {
   [[ $EUID == 0 ]] || fail 'root required'
   case "$(cat /etc/unraid-version)" in
-    'version="7.3.2"'|'version="7.3.4"'|'version="7.3.5"') ;;
+    'version="7.3.2"'|'version="7.3.4"'|'version="7.3.5"'|'version="7.4.0"') ;;
     *) fail 'Unraid version not validated' ;;
   esac
 }

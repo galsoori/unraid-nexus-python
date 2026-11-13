@@ -7,7 +7,7 @@ docker build -t nexus-python-local:3.15.2 .
 mkdir -p dist
 docker run --rm --network none \
   -e RELEASE_BASE=https://raw.githubusercontent.com/galsoori/unraid-nexus-python/main \
-  -e PACKAGE_BASE=https://github.com/galsoori/unraid-nexus-python/releases/download/2026.11.13.2 \
+  -e PACKAGE_BASE=https://github.com/galsoori/unraid-nexus-python/releases/download/2026.11.14.1 \
   -v "$PWD:/work:ro" -v "$PWD/dist:/out" \
   nexus-python-local:3.15.2 /opt/nexus-python/3.15.2/bin/python3.15 /work/package.py
 ```
